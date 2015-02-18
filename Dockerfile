@@ -33,7 +33,7 @@ RUN apt-get update && \
 ADD apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Enable apache rewrite module and vhost_alias
-RUN a2enmod rewrite vhost_alias
+RUN a2enmod rewrite
 
 # Add image configuration and scripts
 ADD start.sh /start.sh
