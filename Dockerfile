@@ -45,5 +45,4 @@ ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 
 EXPOSE 80
-WORKDIR /app
 CMD ["/run.sh"]
