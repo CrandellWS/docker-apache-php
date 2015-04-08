@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM ubuntu:trusty
 MAINTAINER Ibn Saeed <ibnsaeed@gmail.com>
 
 # Update the package repository
@@ -48,6 +48,7 @@ ENV APACHE_SERVERALIAS docker.localhost
 ENV APACHE_DOCUMENTROOT /var/www/html
 ENV APACHE_APPLICATION_ENV development
 
+
 # Add image configuration and scripts
 COPY scripts/start.sh /start.sh
 COPY scripts/run.sh /run.sh
@@ -57,9 +58,9 @@ COPY conf/supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.co
 # Configure /app folder
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 
-# Download latest stable Drupal into /app
-#RUN drush dl drupal-7 --drupal-project-rename=app
-#RUN drush dl drupal-7
+# Source envvars
+#RUN sudo /etc/apache2/envvars
+RUN sudo apache2ctl -S
 
 
 EXPOSE 80
