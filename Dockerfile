@@ -1,15 +1,14 @@
 FROM ubuntu:trusty
 MAINTAINER Ibn Saeed <ibnsaeed@gmail.com>
 
+# Update apt sources
+RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
+
 # Update the package repository
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \ 
 	DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget
 
-# Added dotdeb to apt
-RUN echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
-	echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
-	wget -O- http://www.dotdeb.org/dotdeb.gpg | apt-key add -
 
 # Install PHP 5.5
 RUN apt-get update; apt-get install -y git apache2 supervisor libapache2-mod-php5 php5-gd php-pear php5-cli php5 php5-mcrypt php5-curl php5-pgsql php5-mysql
@@ -34,6 +33,9 @@ RUN ln -s /etc/apache2/sites-available/001-docker.conf /etc/apache2/sites-enable
 
 # Enable apache rewrite module and vhost_alias
 RUN a2enmod rewrite
+
+# Restart apache2 because we changed configuration directives in php.ini
+RUN service apache2 restart
 
 # Set Apache environment variables (can be changed on docker run with -e)
 ENV APACHE_RUN_USER www-data
