@@ -58,7 +58,7 @@ RUN chmod 755 /*.sh
 COPY conf/supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
 
 # Configure /app folder
-RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
+RUN mkdir -p /app && rm -fr /var/www && ln -s /app /var/www
 
 # Source envvars
 #RUN sudo /etc/apache2/envvars
